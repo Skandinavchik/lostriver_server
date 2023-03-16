@@ -1,12 +1,16 @@
 const express = require('express');
-const { getAllWaters } = require('../controllers/waterController');
+const { getAllWaters, getWater, createWater, updateWater, deleteWater } = require('../controllers/waterController');
 
 const router = express.Router();
 
 router.route('/')
-    .get(getAllWaters);
+    .get(getAllWaters)
+    .post(createWater);
 
 router.route('/:id')
-    .get();
+    .get(getWater)
+    .patch(updateWater)
+    .delete(deleteWater);
+    
 
 module.exports = router;
