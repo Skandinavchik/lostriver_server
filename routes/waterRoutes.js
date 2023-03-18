@@ -1,5 +1,11 @@
 const express = require('express');
-const { getAllWaters, getWater, createWater, updateWater, deleteWater } = require('../controllers/waterController');
+const {
+    getAllWaters,
+    getWater,
+    createWater,
+    updateWater,
+    deleteWater
+} = require('../controllers/waterController');
 
 const router = express.Router();
 
