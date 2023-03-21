@@ -1,4 +1,6 @@
 const mongoose = require('mongoose');
+const slugify = require('slugify');
+const validator = require('validator');
 
 
 const waterSchema = new mongoose.Schema({
@@ -7,6 +9,12 @@ const waterSchema = new mongoose.Schema({
         required: [true, 'Name is required'],
         unique: true,
         trim: true,
+        minlength: [2, 'Name must be longer then 2 characters'],
+        maxlength: [40, 'Name must have less then 40 characters'],
+    },
+
+    slug: {
+        type: String
     },
 
     serialNumber: {
@@ -20,6 +28,11 @@ const waterSchema = new mongoose.Schema({
         type: String,
         required: [true, 'License Type is required'],
         trim: true,
+        enum: {
+            values: ['carp', 'grayling', 'trout'],
+            message: 'License type is either: carp, grayling and trout',
+        },
+        validate: [validator.isAlpha, 'License type must only contain characters'],
     },
 
     guestPrice: {
@@ -44,6 +57,8 @@ const waterSchema = new mongoose.Schema({
     ratingsAverage: {
         type: Number,
         default: 4.5,
+        min: [1, 'Rating must be above 1'],
+        max: [5, 'Rating must be below 5'],
     },
 
     ratingsQuantity: {
@@ -68,9 +83,45 @@ const waterSchema = new mongoose.Schema({
     createdAt: {
         type: Date,
         default: Date.now(),
-        // select: false,
+        select: false,
+    },
+
+    prohibited: {
+        type: Boolean,
+        default: false,
     },
 });
+
+waterSchema.pre('save', function(next) {
+    this.slug = slugify(this.name, {lower: true});
+    next();
+});
+
+
+// Document middleware
+
+// waterSchema.pre('save', function(next) {
+//     console.log('Will save document 📄');
+//     next();
+// });
+
+// waterSchema.post('save', function(doc, next) {
+//     console.log(doc);
+//     next();
+// });
+
+
+// Query middleware
+
+waterSchema.pre(/^find/, function(next) {
+    this.find({prohibited: {$ne: true}});
+    next();
+});
+
+// waterSchema.post(/^find/, function(docs, next) {
+//     // do something
+//     next();
+// });
 
 const Water = mongoose.model('Water', waterSchema);
 

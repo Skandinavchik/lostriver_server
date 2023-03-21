@@ -1,13 +1,18 @@
 const Water = require('../models/waterModel');
 
+exports.aliasTopWaters = (req, res, next) => {
+    req.query._id = ['641549ccb2d2d6885c344100', '641549b1b2d2d6885c3440fe'];
+    next();
+};
+
 exports.getAllWaters = async (req, res) => {
 
     try {
-        const { name, sort, fields } = req.query;
+        const {name, sort, fields} = req.query;
         // 1a Filtering
         const queryObject = { ...req.query };
-        const excudedFields = ['limit', 'page', 'sort', 'fields'];
-        excudedFields.forEach(item => delete queryObject[item]);
+        const excludedFields = ['limit', 'page', 'sort', 'fields'];
+        excludedFields.forEach(item => delete queryObject[item]);
 
         // 1b Search by name
         let query = Water.find(name
