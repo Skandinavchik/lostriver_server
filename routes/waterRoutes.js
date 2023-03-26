@@ -15,11 +15,11 @@ router.route('/top-waters')
     .get(aliasTopWaters, getAllWaters)
 
 router.route('/')
-    .get(protect, getAllWaters)
+    .get(getAllWaters)
     .post(protect, permitedTo('admin'), createWater);
 
 router.route('/:id')
-    .get(getWater)
+    .get(protect, getWater)
     .patch(updateWater)
     .delete(deleteWater);
 
