@@ -1,6 +1,7 @@
 const { promisify } = require('util');
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcryptjs');
+const sendEmail = require('../utils/email');
 
 const User = require('../models/userModel');
 
@@ -117,4 +118,53 @@ exports.permitedTo = (...roles) => {
 
         next();
     };
+};
+
+exports.forgotPassword = async (req, res, next) => {
+    try {
+        const user = await User.findOne({
+            email: req.body.email,
+        });
+
+        if (!user) throw new Error('No user');
+
+        console.log(user);
+
+        const resetToken = user.createPasswordResetToken();
+        await user.save({validateBeforeSave: false});
+
+        const resetURL = `${req.protocol}://${req.get('host')}/api/v1.0/users/resetPassword/${resetToken}`;
+
+        const message = `Forgot password message. Set new password with ${resetURL}`;
+
+        await sendEmail({
+            email: req.body.email,
+            subject: 'Password reset token(valid for 10 min)',
+            message,
+        });
+
+        res.status(200).json({
+            status: 'success',
+            message: 'Token send to email'
+        });
+
+        next();
+    }
+    
+    catch (error) {
+        user.passwordResetToken = undefined;
+        user.passwordExpires = undefined;
+        await user.save({validateBeforeSave: false});
+
+        res.status(404).json({
+            status: 'fail',
+            message: error,
+        });
+    }
+};
+
+exports.resetPassword = (req, res, next) => {
+    
+    
+    next();
 };
