@@ -1,5 +1,5 @@
 import { NestFactory } from '@nestjs/core';
-import { AppModule } from './app.module';
+import { AppModule } from './app/app.module';
 import { CorsOptions } from '@nestjs/common/interfaces/external/cors-options.interface';
 import * as cookieParser from 'cookie-parser';
 
@@ -7,9 +7,10 @@ import * as cookieParser from 'cookie-parser';
 const corsOptions: CorsOptions = {
 	origin: 'http://localhost:3000',
 	methods: ['GET', 'POST', 'PATCH', 'DELETE'],
-	allowedHeaders: ['Content-Type', 'Authorization'],
+	allowedHeaders: ['Content-Type'],
 	credentials: true,
 };
+const port = process.env.PORT;
 
 async function bootstrap() {
 	const app = await NestFactory.create(AppModule);
@@ -17,7 +18,7 @@ async function bootstrap() {
 	app.enableCors(corsOptions);
 	app.setGlobalPrefix('api');
 
-	await app.listen(8000);
+	await app.listen(port);
 }
 
 bootstrap();
