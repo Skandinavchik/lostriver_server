@@ -12,13 +12,13 @@ export class AuthController {
 
 	@Post('signup')
 	@UsePipes(new ValidationPipe({ whitelist: true }))
+	@HttpCode(201)
 	async signUp(@Res({ passthrough: true }) res: Response, @Body() signUpDto: SignUpDto): Promise<IRes> {
 		return this.authService.signUp(res, signUpDto);
 	}
 
-
 	@Post('signin')
-	@UsePipes(new ValidationPipe({ whitelist: true }))
+	// @UsePipes(new ValidationPipe({ whitelist: true }))
 	@HttpCode(200)
 	async signIn(@Res({ passthrough: true }) res: Response, @Body() signInDto: SignInDto): Promise<IRes> {
 		return this.authService.signIn(res, signInDto);

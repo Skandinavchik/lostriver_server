@@ -8,22 +8,17 @@ import { PrismaService } from 'src/prisma/prisma.service';
 export class UserService {
 	constructor(private readonly prismaService: PrismaService) { };
 
-	async findAll(): Promise<Omit<User, 'password'>[]> {
+	async findAll() {
 		const users = await this.prismaService.user.findMany();
 
 		if (users.length === 0) {
 			throw new NotFoundException('No users');
 		}
 
-		const usersWithoutPassword = users.map((user: User) => {
-			const { password, ...userWithoutPassword } = user;
-			return userWithoutPassword;
-		});
-
-		return usersWithoutPassword;
+		return this.removePassword(users);
 	};
 
-	async findById(id: string): Promise<Omit<User, 'password'>> {
+	async findById(id: string) {
 		const user = await this.prismaService.user.findUnique({
 			where: {
 				id,
@@ -34,7 +29,22 @@ export class UserService {
 			throw new NotFoundException('User with this ID not found');
 		}
 
-		const { password, ...userWithoutPassword } = user;
-		return userWithoutPassword;
+		return this.removePassword(user);
+	};
+
+	removePassword(userOrUsers: User | User[]) {
+		if (!Array.isArray(userOrUsers)) {
+			const { password, ...userWithoutPassword } = userOrUsers;
+			return userWithoutPassword;
+		}
+
+		const arrayOfUsersWithoutPassword: Omit<User, 'password'>[] = [];
+
+		for (let i = 0; i < userOrUsers.length; i++) {
+			const { password, ...userWithoutPassword } = userOrUsers[i];
+			arrayOfUsersWithoutPassword.push(userWithoutPassword);
+		}
+
+		return arrayOfUsersWithoutPassword;
 	};
 }
