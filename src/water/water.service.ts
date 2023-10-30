@@ -1,6 +1,8 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { PrismaService } from 'src/prisma/prisma.service';
 import { WaterDto } from './dto/water.dto';
+import { Request } from 'express';
+import { IReqQueryObject } from './types/water.type';
 
 
 @Injectable()
@@ -9,10 +11,7 @@ export class WaterService {
 
 	async create(waterDto: WaterDto) {
 		const water = await this.prismaService.water.create({
-			data: {
-				title: waterDto.title,
-				organizationId: waterDto.organizationId,
-			},
+			data: waterDto,
 			include: {
 				organization: true,
 			},
@@ -21,16 +20,31 @@ export class WaterService {
 		return water;
 	};
 
-	async findAll() {
+	async findAll(req: Request) {
+
+		const { q, sort, org }: IReqQueryObject = req.query;
+
 		const waters = await this.prismaService.water.findMany({
+			where: {
+				title: {
+					contains: q,
+					mode: 'insensitive',
+				},
+				organizationId: {
+					in: org ? org.split(',') : undefined,
+				},
+			},
 			include: {
 				organization: true,
-			}
+			},
+			orderBy: {
+				visitorPrice: sort
+			},
 		});
 
 		if (!waters.length) {
 			return {
-				message: 'No waters'
+				message: 'No waters',
 			};
 		}
 

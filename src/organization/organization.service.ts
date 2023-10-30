@@ -26,11 +26,7 @@ export class OrganizationService {
 	}
 
 	async findAll() {
-		const organizations = await this.prismaService.organization.findMany({
-			include: {
-				waters: true,
-			},
-		});
+		const organizations = await this.prismaService.organization.findMany();
 
 		if (!organizations.length) {
 			return {

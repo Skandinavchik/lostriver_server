@@ -18,7 +18,10 @@ CREATE TABLE "User" (
 CREATE TABLE "Water" (
     "id" TEXT NOT NULL,
     "title" TEXT NOT NULL,
+    "cover" TEXT NOT NULL,
     "organizationId" TEXT NOT NULL,
+    "visitorPrice" DECIMAL(5,2) NOT NULL,
+    "memberPrice" DECIMAL(5,2) NOT NULL,
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updatedAt" TIMESTAMP(3) NOT NULL,
 

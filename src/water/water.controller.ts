@@ -1,6 +1,7 @@
-import { Controller, Get, Post, Body, Param } from '@nestjs/common';
+import { Controller, Get, Post, Body, Param, UsePipes, ValidationPipe, Query, ParseEnumPipe, Req } from '@nestjs/common';
 import { WaterService } from './water.service';
 import { WaterDto } from './dto/water.dto';
+import { Request } from 'express';
 
 
 @Controller('waters')
@@ -8,13 +9,14 @@ export class WaterController {
 	constructor(private readonly waterService: WaterService) { }
 
 	@Post()
+	@UsePipes(new ValidationPipe({ forbidNonWhitelisted: true }))
 	async create(@Body() waterDto: WaterDto) {
 		return this.waterService.create(waterDto);
 	};
 
 	@Get()
-	async findAll() {
-		return this.waterService.findAll();
+	async findAll(@Req() req: Request) {
+		return this.waterService.findAll(req);
 	};
 
 	@Get(':id')

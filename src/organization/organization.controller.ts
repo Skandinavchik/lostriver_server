@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Param, Post } from '@nestjs/common';
+import { Body, Controller, Get, Param, Post, UsePipes, ValidationPipe } from '@nestjs/common';
 import { OrganizationService } from './organization.service';
 import { OrganizationDto } from './dto/organization.dto';
 
@@ -8,6 +8,7 @@ export class OrganizationController {
 	constructor(private readonly organizationService: OrganizationService) { }
 
 	@Post()
+	@UsePipes(new ValidationPipe({ forbidNonWhitelisted: true }))
 	async create(@Body() organizationDto: OrganizationDto) {
 		return this.organizationService.create(organizationDto);
 	}
