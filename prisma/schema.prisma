@@ -18,15 +18,18 @@ model User {
 }
 
 model Water {
-    id             String       @id @default(uuid())
-    title          String       @unique
+    id             String        @id @default(uuid())
+    serialNumber   String        @unique
+    title          String        @unique
     cover          String
-    organization   Organization @relation(fields: [organizationId], references: [id])
+    organization   Organization  @relation(fields: [organizationId], references: [id])
     organizationId String
-    visitorPrice   Decimal      @db.Decimal(5, 2)
-    memberPrice    Decimal      @db.Decimal(5, 2)
-    createdAt      DateTime     @default(now())
-    updatedAt      DateTime     @updatedAt
+    visitorPrice   Decimal       @db.Decimal(5, 2)
+    memberPrice    Decimal       @db.Decimal(5, 2)
+    waterType      WaterType
+    licenseType    LicenseType[]
+    createdAt      DateTime      @default(now())
+    updatedAt      DateTime      @updatedAt
 }
 
 model Organization {
@@ -42,4 +45,17 @@ enum Role {
     host
     control
     admin
+}
+
+enum WaterType {
+    stream
+    river
+    lake
+}
+
+enum LicenseType {
+    carp
+    grayling
+    hucho
+    trout
 }

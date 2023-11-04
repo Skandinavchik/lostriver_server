@@ -1,7 +1,10 @@
+import { LicenseType, WaterType } from '@prisma/client';
+
 export type Sort = 'asc' | 'desc';
 
 export interface IReqQueryObject {
 	q?: string;
 	sort?: Sort;
-	org?: string;
+	wtypes?: WaterType;
+	ltypes?: LicenseType;
 };

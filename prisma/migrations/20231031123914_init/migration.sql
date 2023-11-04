@@ -1,6 +1,9 @@
 -- CreateEnum
 CREATE TYPE "Role" AS ENUM ('user', 'host', 'control', 'admin');
 
+-- CreateEnum
+CREATE TYPE "WaterType" AS ENUM ('stream', 'river', 'lake');
+
 -- CreateTable
 CREATE TABLE "User" (
     "id" TEXT NOT NULL,
@@ -17,11 +20,13 @@ CREATE TABLE "User" (
 -- CreateTable
 CREATE TABLE "Water" (
     "id" TEXT NOT NULL,
+    "serialNumber" TEXT NOT NULL,
     "title" TEXT NOT NULL,
     "cover" TEXT NOT NULL,
     "organizationId" TEXT NOT NULL,
     "visitorPrice" DECIMAL(5,2) NOT NULL,
     "memberPrice" DECIMAL(5,2) NOT NULL,
+    "waterType" "WaterType" NOT NULL,
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updatedAt" TIMESTAMP(3) NOT NULL,
 
@@ -40,6 +45,9 @@ CREATE TABLE "Organization" (
 
 -- CreateIndex
 CREATE UNIQUE INDEX "User_email_key" ON "User"("email");
+
+-- CreateIndex
+CREATE UNIQUE INDEX "Water_serialNumber_key" ON "Water"("serialNumber");
 
 -- CreateIndex
 CREATE UNIQUE INDEX "Water_title_key" ON "Water"("title");

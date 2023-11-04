@@ -1,8 +1,9 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
-import { PrismaService } from 'src/prisma/prisma.service';
-import { WaterDto } from './dto/water.dto';
-import { Request } from 'express';
-import { IReqQueryObject } from './types/water.type';
+import { Injectable, NotFoundException } from '@nestjs/common'
+import { PrismaService } from 'src/prisma/prisma.service'
+import { WaterDto } from './dto/water.dto'
+import { Request } from 'express'
+import { IReqQueryObject } from './types/water.type'
+import { LicenseType, WaterType } from '@prisma/client'
 
 
 @Injectable()
@@ -15,14 +16,14 @@ export class WaterService {
 			include: {
 				organization: true,
 			},
-		});
+		})
 
-		return water;
+		return water
 	};
 
 	async findAll(req: Request) {
 
-		const { q, sort, org }: IReqQueryObject = req.query;
+		const { q, sort, wtypes, ltypes }: IReqQueryObject = req.query
 
 		const waters = await this.prismaService.water.findMany({
 			where: {
@@ -30,9 +31,15 @@ export class WaterService {
 					contains: q,
 					mode: 'insensitive',
 				},
-				organizationId: {
-					in: org ? org.split(',') : undefined,
+				waterType: {
+					in: wtypes ? wtypes.split(',') as WaterType[] : undefined,
 				},
+				licenseType: {
+					hasSome: ltypes
+						? ltypes.split(',') as LicenseType[]
+						: ['carp', 'grayling', 'hucho', 'trout'],
+				},
+
 			},
 			include: {
 				organization: true,
@@ -40,15 +47,15 @@ export class WaterService {
 			orderBy: {
 				visitorPrice: sort
 			},
-		});
+		})
 
 		if (!waters.length) {
 			return {
 				message: 'No waters',
-			};
+			}
 		}
 
-		return waters;
+		return waters
 	};
 
 	async findById(id: string) {
@@ -59,12 +66,12 @@ export class WaterService {
 			include: {
 				organization: true,
 			}
-		});
+		})
 
 		if (!water) {
-			throw new NotFoundException('Water with this ID not found');
+			throw new NotFoundException('Water with this ID not found')
 		}
 
-		return water;
+		return water
 	};
 }
