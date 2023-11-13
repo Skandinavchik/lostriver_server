@@ -58,10 +58,10 @@ export class WaterService {
 		return waters
 	};
 
-	async findById(id: string) {
+	async findById(slug: string) {
 		const water = await this.prismaService.water.findUnique({
 			where: {
-				id,
+				serialNumber: slug,
 			},
 			include: {
 				organization: true,
@@ -69,7 +69,7 @@ export class WaterService {
 		})
 
 		if (!water) {
-			throw new NotFoundException('Water with this ID not found')
+			throw new NotFoundException('Water not found')
 		}
 
 		return water
