@@ -1,0 +1,79 @@
+# ------------------------------------------------------
+# THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
+# ------------------------------------------------------
+
+type WaterEntity {
+  id: String!
+  serialNumber: String!
+  title: String!
+  cover: String!
+  organizationId: String!
+  organization: OrganizationEntity!
+  visitorPrice: Int!
+  memberPrice: Int!
+  waterType: String!
+  licenseType: [String!]!
+  createdAt: DateTime!
+  updatedAt: DateTime!
+}
+
+"""
+A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date-time format.
+"""
+scalar DateTime
+
+type OrganizationEntity {
+  id: String!
+  title: String!
+  waters: [WaterEntity!]!
+  createdAt: DateTime!
+  updatedAt: DateTime!
+}
+
+type Query {
+  getAllWaters: [WaterEntity!]!
+  getWaterById(id: String!): WaterEntity!
+  organizations: [OrganizationEntity!]!
+  organization(id: Int!): OrganizationEntity!
+}
+
+type Mutation {
+  createWater(dto: CreateWaterDto!): WaterEntity!
+  updateWater(id: String!, dto: UpdateWaterDto!): WaterEntity!
+  removeWater(id: Int!): WaterEntity!
+  createOrganization(createOrganizationInput: CreateOrganizationInput!): OrganizationEntity!
+  updateOrganization(updateOrganizationInput: UpdateOrganizationInput!): OrganizationEntity!
+  removeOrganization(id: Int!): OrganizationEntity!
+}
+
+input CreateWaterDto {
+  serialNumber: String!
+  title: String!
+  cover: String!
+  organizationId: String!
+  visitorPrice: Float!
+  memberPrice: Float!
+  waterType: String!
+  licenseType: [String!]!
+}
+
+input UpdateWaterDto {
+  serialNumber: String
+  title: String
+  cover: String
+  visitorPrice: Int
+  memberPrice: Int
+  waterType: String
+  licenseType: [String!]
+}
+
+input CreateOrganizationInput {
+  """Example field (placeholder)"""
+  exampleField: Int!
+}
+
+input UpdateOrganizationInput {
+  """Example field (placeholder)"""
+  exampleField: Int
+  id: Int!
+}

@@ -1,7 +1,6 @@
-import { NestFactory } from '@nestjs/core';
-import { AppModule } from './app/app.module';
-import { CorsOptions } from '@nestjs/common/interfaces/external/cors-options.interface';
-import * as cookieParser from 'cookie-parser';
+import { NestFactory } from '@nestjs/core'
+import { AppModule } from './app/app.module'
+import { CorsOptions } from '@nestjs/common/interfaces/external/cors-options.interface'
 
 
 const corsOptions: CorsOptions = {
@@ -9,16 +8,15 @@ const corsOptions: CorsOptions = {
 	methods: ['GET', 'POST', 'PATCH', 'DELETE'],
 	allowedHeaders: ['Content-Type'],
 	credentials: true,
-};
-const port = process.env.PORT;
+}
+const port = process.env.PORT
 
 async function bootstrap() {
-	const app = await NestFactory.create(AppModule);
-	app.use(cookieParser());
-	app.enableCors(corsOptions);
-	app.setGlobalPrefix('api');
+	const app = await NestFactory.create(AppModule)
+	app.enableCors(corsOptions)
+	app.setGlobalPrefix('api')
 
-	await app.listen(port);
+	await app.listen(port)
 }
 
-bootstrap();
+bootstrap()

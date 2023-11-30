@@ -1,20 +1,24 @@
-import { Module } from '@nestjs/common';
-import { ConfigModule } from '@nestjs/config';
-import { AuthModule } from 'src/auth/auth.module';
-import { OrganizationModule } from 'src/organization/organization.module';
-import { PrismaModule } from 'src/prisma/prisma.module';
-import { UserModule } from 'src/user/user.module';
-import { WaterModule } from 'src/water/water.module';
+import { ApolloDriver, ApolloDriverConfig } from '@nestjs/apollo'
+import { Module } from '@nestjs/common'
+import { ConfigModule } from '@nestjs/config'
+import { GraphQLModule } from '@nestjs/graphql'
+import { GraphQLError, GraphQLFormattedError } from 'graphql'
+import { OrganizationsModule } from 'src/organizations/organizations.module'
+import { PrismaModule } from 'src/prisma/prisma.module'
+import { WatersModule } from 'src/waters/waters.module'
 
 
 @Module({
 	imports: [
-		ConfigModule.forRoot(),
+		GraphQLModule.forRoot<ApolloDriverConfig>({
+			driver: ApolloDriver,
+			autoSchemaFile: 'schema.gql',
+			useGlobalPrefix: true,
+		}),
+		ConfigModule,
 		PrismaModule,
-		AuthModule,
-		UserModule,
-		OrganizationModule,
-		WaterModule,
+		WatersModule,
+		OrganizationsModule
 	],
 	controllers: [],
 	providers: [],
