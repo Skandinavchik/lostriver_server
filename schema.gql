@@ -40,7 +40,7 @@ type Query {
 type Mutation {
   createWater(dto: CreateWaterDto!): WaterEntity!
   updateWater(id: String!, dto: UpdateWaterDto!): WaterEntity!
-  removeWater(id: Int!): WaterEntity!
+  removeWater(id: String!): WaterEntity!
   createOrganization(createOrganizationInput: CreateOrganizationInput!): OrganizationEntity!
   updateOrganization(updateOrganizationInput: UpdateOrganizationInput!): OrganizationEntity!
   removeOrganization(id: Int!): OrganizationEntity!
@@ -61,6 +61,7 @@ input UpdateWaterDto {
   serialNumber: String
   title: String
   cover: String
+  organizationId: String
   visitorPrice: Int
   memberPrice: Int
   waterType: String

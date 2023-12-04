@@ -1,7 +1,7 @@
 import { ConflictException, Injectable, NotFoundException } from '@nestjs/common'
 import { CreateWaterDto } from './dto/create-water.dto'
 import { UpdateWaterDto } from './dto/update-water.dto'
-import { PrismaService } from 'src/prisma/prisma.service'
+import { PrismaService } from '../prisma/prisma.service'
 import { PrismaClientKnownRequestError } from '@prisma/client/runtime/library'
 import { WaterEntity } from './entities/water.entity'
 
@@ -18,9 +18,9 @@ export class WatersService {
 					organization: true
 				}
 			})
-			console.log(water)
 
 			return water
+
 		} catch (error) {
 			if (error instanceof PrismaClientKnownRequestError) {
 				throw new ConflictException('Water already exists')
@@ -29,29 +29,40 @@ export class WatersService {
 	}
 
 	async getAll(): Promise<WaterEntity[]> {
-		const waters = await this.prismaService.water.findMany({
-			include: {
-				organization: true,
+		try {
+			const waters = await this.prismaService.water.findMany({
+				include: {
+					organization: true,
+				}
+			})
+
+			return waters
+
+		} catch (error) {
+			if (error instanceof Error) {
+				throw new Error()
 			}
-		})
-		return waters
+		}
 	}
 
 	async getById(id: string): Promise<WaterEntity> {
-		const water = await this.prismaService.water.findUnique({
-			where: {
-				id,
-			},
-			include: {
-				organization: true
+		try {
+			const water = await this.prismaService.water.findUniqueOrThrow({
+				where: {
+					id,
+				},
+				include: {
+					organization: true
+				}
+			})
+
+			return water
+
+		} catch (error) {
+			if (error instanceof PrismaClientKnownRequestError) {
+				throw new NotFoundException('Water not found')
 			}
-		})
-
-		if (!water) {
-			throw new NotFoundException('Water Not found')
 		}
-
-		return water
 	}
 
 	async update(id: string, updateWaterDto: UpdateWaterDto): Promise<WaterEntity> {
@@ -75,7 +86,23 @@ export class WatersService {
 		}
 	}
 
-	async remove(id: number) {
-		return `This action removes a #${id} water`
+	async remove(id: string): Promise<WaterEntity> {
+		try {
+			const removedWater = await this.prismaService.water.delete({
+				where: {
+					id
+				},
+				include: {
+					organization: true
+				}
+			})
+
+			return removedWater
+
+		} catch (error) {
+			if (error instanceof PrismaClientKnownRequestError) {
+				throw new NotFoundException('Water not found')
+			}
+		}
 	}
 }

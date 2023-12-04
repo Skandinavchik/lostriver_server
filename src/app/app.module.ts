@@ -14,6 +14,15 @@ import { WatersModule } from 'src/waters/waters.module'
 			driver: ApolloDriver,
 			autoSchemaFile: 'schema.gql',
 			useGlobalPrefix: true,
+			formatError: (error: GraphQLError) => {
+				const { stacktrace, ...restExtentions } = error.extensions
+				const graphQLFormattedError: GraphQLFormattedError = {
+					message: error.message,
+					path: error.path,
+					extensions: restExtentions
+				}
+				return graphQLFormattedError
+			}
 		}),
 		ConfigModule,
 		PrismaModule,

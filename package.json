@@ -43,7 +43,7 @@
 	"devDependencies": {
 		"@nestjs/cli": "^10.0.0",
 		"@nestjs/schematics": "^10.0.0",
-		"@nestjs/testing": "^10.0.0",
+		"@nestjs/testing": "^10.2.10",
 		"@types/bcrypt": "^5.0.0",
 		"@types/cookie-parser": "^1.4.4",
 		"@types/express": "^4.17.17",
@@ -79,7 +79,7 @@
 			"^.+\\.(t|j)s$": "ts-jest"
 		},
 		"collectCoverageFrom": [
-			"**/*.(t|j)s"
+			"**/waters.service.(t|j)s"
 		],
 		"coverageDirectory": "../coverage",
 		"testEnvironment": "node"
