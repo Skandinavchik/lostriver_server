@@ -3,14 +3,16 @@ import { CreateWaterDto } from './dto/create-water.dto'
 import { UpdateWaterDto } from './dto/update-water.dto'
 import { PrismaService } from '../prisma/prisma.service'
 import { PrismaClientKnownRequestError } from '@prisma/client/runtime/library'
-import { WaterEntity } from './entities/water.entity'
+import { WatersResponse, SingleWaterResponse } from './entities/water-response.entity'
+import { WaterArgs } from './types/water.type'
+import { LicenseType, WaterType } from '@prisma/client'
 
 
 @Injectable()
-export class WatersService {
+export class WaterService {
 	constructor(private readonly prismaService: PrismaService) { }
 
-	async create(createWaterDto: CreateWaterDto): Promise<WaterEntity> {
+	async create(createWaterDto: CreateWaterDto): Promise<SingleWaterResponse> {
 		try {
 			const water = await this.prismaService.water.create({
 				data: createWaterDto,
@@ -19,7 +21,9 @@ export class WatersService {
 				}
 			})
 
-			return water
+			return {
+				water
+			}
 
 		} catch (error) {
 			if (error instanceof PrismaClientKnownRequestError) {
@@ -28,24 +32,63 @@ export class WatersService {
 		}
 	}
 
-	async getAll(): Promise<WaterEntity[]> {
+	async getMany(args: WaterArgs): Promise<WatersResponse> {
 		try {
+			const { q, order, wtypes, ltypes } = args
 			const waters = await this.prismaService.water.findMany({
+				where: {
+					OR: [
+						{
+							title: {
+								contains: q,
+								mode: 'insensitive',
+							},
+						},
+						{
+							serialNumber: {
+								contains: q,
+							},
+						},
+						{
+							organization: {
+								title: {
+									contains: q,
+									mode: 'insensitive'
+								}
+							}
+						},
+					],
+					waterType: {
+						in: wtypes && wtypes.length
+							? wtypes
+							: Object.values(WaterType)
+					},
+					licenseType: {
+						hasSome: ltypes && ltypes.length
+							? ltypes
+							: Object.values(LicenseType)
+					}
+				},
 				include: {
 					organization: true,
-				}
+				},
+				orderBy: order
 			})
 
-			return waters
+			return {
+				count: waters.length,
+				waters
+			}
 
 		} catch (error) {
+			console.log(error)
 			if (error instanceof Error) {
 				throw new Error()
 			}
 		}
 	}
 
-	async getById(id: string): Promise<WaterEntity> {
+	async getById(id: string): Promise<SingleWaterResponse> {
 		try {
 			const water = await this.prismaService.water.findUniqueOrThrow({
 				where: {
@@ -56,7 +99,9 @@ export class WatersService {
 				}
 			})
 
-			return water
+			return {
+				water
+			}
 
 		} catch (error) {
 			if (error instanceof PrismaClientKnownRequestError) {
@@ -65,7 +110,7 @@ export class WatersService {
 		}
 	}
 
-	async update(id: string, updateWaterDto: UpdateWaterDto): Promise<WaterEntity> {
+	async update(id: string, updateWaterDto: UpdateWaterDto): Promise<SingleWaterResponse> {
 		try {
 			const updatedWater = await this.prismaService.water.update({
 				where: {
@@ -77,7 +122,9 @@ export class WatersService {
 				}
 			})
 
-			return updatedWater
+			return {
+				water: updatedWater
+			}
 
 		} catch (error) {
 			if (error instanceof PrismaClientKnownRequestError) {
@@ -86,7 +133,7 @@ export class WatersService {
 		}
 	}
 
-	async remove(id: string): Promise<WaterEntity> {
+	async remove(id: string): Promise<SingleWaterResponse> {
 		try {
 			const removedWater = await this.prismaService.water.delete({
 				where: {
@@ -97,7 +144,9 @@ export class WatersService {
 				}
 			})
 
-			return removedWater
+			return {
+				water: removedWater
+			}
 
 		} catch (error) {
 			if (error instanceof PrismaClientKnownRequestError) {

@@ -1,6 +1,6 @@
 import { ObjectType, Field } from '@nestjs/graphql'
 import { Organization, Water } from '@prisma/client'
-import { WaterEntity } from 'src/waters/entities/water.entity'
+import { WaterEntity } from '../../water/entities/water.entitiy'
 
 @ObjectType()
 export class OrganizationEntity implements Organization {

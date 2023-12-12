@@ -1,8 +1,8 @@
 import { InputType, Field, PartialType, OmitType, Float } from '@nestjs/graphql'
 import { $Enums } from '@prisma/client'
 import { Decimal } from '@prisma/client/runtime/library'
-import { WaterEntity } from '../entities/water.entity'
-import { IsEnum, IsUrl, Matches } from 'class-validator'
+import { WaterEntity } from '../entities/water.entitiy'
+import { IsEnum, IsUrl, Matches, Max, Min } from 'class-validator'
 
 @InputType()
 export class CreateWaterDto extends PartialType(
@@ -27,9 +27,21 @@ export class CreateWaterDto extends PartialType(
 	organizationId: string
 
 	@Field(() => Float)
+	@Min(0, {
+		message: 'Minimum price is 0'
+	})
+	@Max(0, {
+		message: 'Maximum price is 999.99'
+	})
 	visitorPrice: Decimal
 
 	@Field(() => Float)
+	@Min(0, {
+		message: 'Minimum price is 0'
+	})
+	@Max(0, {
+		message: 'Maximum price is 999.99'
+	})
 	memberPrice: Decimal
 
 	@Field()

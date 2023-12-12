@@ -30,19 +30,64 @@ type OrganizationEntity {
   updatedAt: DateTime!
 }
 
+type SingleWaterResponse {
+  water: WaterEntity!
+}
+
+type WatersResponse {
+  count: Int!
+  waters: [WaterEntity!]!
+}
+
 type Query {
-  getAllWaters: [WaterEntity!]!
-  getWaterById(id: String!): WaterEntity!
+  waters(q: String, order: [WaterOrder!], wtypes: [WaterTypes!], ltypes: [LicenseType!]): WatersResponse!
+  water(id: String!): SingleWaterResponse!
   organizations: [OrganizationEntity!]!
   organization(id: Int!): OrganizationEntity!
 }
 
+"""
+Order `Water` by single or multiple fields. The order of sorting parameters matters. Supported values: `asc | desc`
+"""
+input WaterOrder {
+  title: String
+  visitorPrice: String
+  memberPrice: String
+}
+
+"""Supported values"""
+enum WaterTypes {
+  """stream"""
+  stream
+
+  """river"""
+  river
+
+  """lake"""
+  lake
+}
+
+"""Supported values"""
+enum LicenseType {
+  """carp"""
+  carp
+
+  """grayling"""
+  grayling
+
+  """hucho"""
+  hucho
+
+  """trout"""
+  trout
+}
+
 type Mutation {
-  createWater(dto: CreateWaterDto!): WaterEntity!
-  updateWater(id: String!, dto: UpdateWaterDto!): WaterEntity!
-  removeWater(id: String!): WaterEntity!
-  createOrganization(createOrganizationInput: CreateOrganizationInput!): OrganizationEntity!
-  updateOrganization(updateOrganizationInput: UpdateOrganizationInput!): OrganizationEntity!
+  createWater(dto: CreateWaterDto!): SingleWaterResponse!
+  updateWater(id: String!, dto: UpdateWaterDto!): SingleWaterResponse!
+  removeWater(id: String!): SingleWaterResponse!
+  createOrganization(dto: CreateOrganizationDto!): OrganizationEntity!
+  updateOrganization(id: String!, dto: UpdateOrganizationDto!): OrganizationEntity!
   removeOrganization(id: Int!): OrganizationEntity!
 }
 
@@ -68,13 +113,10 @@ input UpdateWaterDto {
   licenseType: [String!]
 }
 
-input CreateOrganizationInput {
-  """Example field (placeholder)"""
-  exampleField: Int!
+input CreateOrganizationDto {
+  title: String!
 }
 
-input UpdateOrganizationInput {
-  """Example field (placeholder)"""
-  exampleField: Int
-  id: Int!
+input UpdateOrganizationDto {
+  title: String
 }

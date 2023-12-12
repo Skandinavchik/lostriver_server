@@ -79,7 +79,7 @@
 			"^.+\\.(t|j)s$": "ts-jest"
 		},
 		"collectCoverageFrom": [
-			"**/waters.service.(t|j)s"
+			"**/*.(t|j)s"
 		],
 		"coverageDirectory": "../coverage",
 		"testEnvironment": "node"

@@ -1,7 +1,7 @@
-import { ObjectType, Field, Int } from '@nestjs/graphql'
+import { ObjectType, Field, Int, InputType, PartialType, PickType } from '@nestjs/graphql'
 import { $Enums, Organization, Water } from '@prisma/client'
 import { Decimal } from '@prisma/client/runtime/library'
-import { OrganizationEntity } from 'src/organizations/entities/organization.entity'
+import { OrganizationEntity } from '../../organization/entities/organization.entity'
 
 
 @ObjectType()
