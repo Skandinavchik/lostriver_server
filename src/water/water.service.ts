@@ -35,6 +35,7 @@ export class WaterService {
 	async getMany(args: GetWatersArgs): Promise<WatersResponse> {
 		try {
 			const { q, order, wtypes, ltypes, take, skip } = args
+			const totalResults = await this.prismaService.water.count()
 			const waters = await this.prismaService.water.findMany({
 				where: {
 					OR: [
@@ -78,7 +79,8 @@ export class WaterService {
 			})
 
 			return {
-				count: waters.length,
+				totalResults,
+				currentResults: waters.length,
 				waters
 			}
 

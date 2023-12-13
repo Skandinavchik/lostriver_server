@@ -1,4 +1,4 @@
-import { ObjectType, Field, Int, InputType, PartialType, PickType } from '@nestjs/graphql'
+import { ObjectType, Field, Int, InputType, PartialType, PickType, ID } from '@nestjs/graphql'
 import { $Enums, Organization, Water } from '@prisma/client'
 import { Decimal } from '@prisma/client/runtime/library'
 import { OrganizationEntity } from '../../organization/entities/organization.entity'
@@ -6,7 +6,7 @@ import { OrganizationEntity } from '../../organization/entities/organization.ent
 
 @ObjectType()
 export class WaterEntity implements Water {
-	@Field()
+	@Field(() => ID)
 	id: string
 
 	@Field()

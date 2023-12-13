@@ -11,7 +11,10 @@ export class SingleWaterResponse {
 @ObjectType()
 export class WatersResponse {
 	@Field(() => Int)
-	count: number
+	totalResults: number
+
+	@Field(() => Int)
+	currentResults: number
 
 	@Field(() => [WaterEntity])
 	waters: WaterEntity[]
