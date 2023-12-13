@@ -4,8 +4,8 @@ import { UpdateWaterDto } from './dto/update-water.dto'
 import { PrismaService } from '../prisma/prisma.service'
 import { PrismaClientKnownRequestError } from '@prisma/client/runtime/library'
 import { WatersResponse, SingleWaterResponse } from './entities/water-response.entity'
-import { WaterArgs } from './types/water.type'
 import { LicenseType, WaterType } from '@prisma/client'
+import { GetWatersArgs } from './dto/get-waters.dto'
 
 
 @Injectable()
@@ -32,9 +32,9 @@ export class WaterService {
 		}
 	}
 
-	async getMany(args: WaterArgs): Promise<WatersResponse> {
+	async getMany(args: GetWatersArgs): Promise<WatersResponse> {
 		try {
-			const { q, order, wtypes, ltypes } = args
+			const { q, order, wtypes, ltypes, take, skip } = args
 			const waters = await this.prismaService.water.findMany({
 				where: {
 					OR: [
@@ -72,7 +72,9 @@ export class WaterService {
 				include: {
 					organization: true,
 				},
-				orderBy: order
+				orderBy: order,
+				take,
+				skip
 			})
 
 			return {
