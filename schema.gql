@@ -1,0 +1,123 @@
+# ------------------------------------------------------
+# THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
+# ------------------------------------------------------
+
+type WaterEntity {
+  id: ID!
+  serialNumber: String!
+  title: String!
+  cover: String!
+  organizationId: String!
+  organization: OrganizationEntity!
+  visitorPrice: Int!
+  memberPrice: Int!
+  waterType: WaterTypes!
+  licenseType: [LicenseType!]!
+  createdAt: DateTime!
+  updatedAt: DateTime!
+}
+
+"""Supported values"""
+enum WaterTypes {
+  """stream"""
+  stream
+
+  """river"""
+  river
+
+  """lake"""
+  lake
+}
+
+"""Supported values"""
+enum LicenseType {
+  """carp"""
+  carp
+
+  """grayling"""
+  grayling
+
+  """hucho"""
+  hucho
+
+  """trout"""
+  trout
+}
+
+"""
+A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date-time format.
+"""
+scalar DateTime
+
+type OrganizationEntity {
+  id: ID!
+  title: String!
+  waters: [WaterEntity!]!
+  createdAt: DateTime!
+  updatedAt: DateTime!
+}
+
+type SingleWaterResponse {
+  water: WaterEntity!
+}
+
+type WatersResponse {
+  totalResults: Int!
+  currentResults: Int!
+  waters: [WaterEntity!]!
+}
+
+type Query {
+  waters(q: String, order: [WaterOrder!], wtypes: [WaterTypes!], ltypes: [LicenseType!], take: Int = 100, skip: Int = 0): WatersResponse!
+  water(id: String!): SingleWaterResponse!
+  organizations: [OrganizationEntity!]!
+  organization(id: Int!): OrganizationEntity!
+}
+
+"""
+Order `Water` by single or multiple fields. The order of sorting parameters matters. Supported values: `asc | desc`
+"""
+input WaterOrder {
+  title: String
+  visitorPrice: String
+  memberPrice: String
+}
+
+type Mutation {
+  createWater(dto: CreateWaterDto!): SingleWaterResponse!
+  updateWater(id: String!, dto: UpdateWaterDto!): SingleWaterResponse!
+  removeWater(id: String!): SingleWaterResponse!
+  createOrganization(dto: CreateOrganizationDto!): OrganizationEntity!
+  updateOrganization(id: String!, dto: UpdateOrganizationDto!): OrganizationEntity!
+  removeOrganization(id: Int!): OrganizationEntity!
+}
+
+input CreateWaterDto {
+  serialNumber: String!
+  title: String!
+  cover: String!
+  organizationId: String!
+  visitorPrice: Float!
+  memberPrice: Float!
+  waterType: String!
+  licenseType: [String!]!
+}
+
+input UpdateWaterDto {
+  serialNumber: String
+  title: String
+  cover: String
+  organizationId: String
+  visitorPrice: Int
+  memberPrice: Int
+  waterType: WaterTypes
+  licenseType: [LicenseType!]
+}
+
+input CreateOrganizationDto {
+  title: String!
+}
+
+input UpdateOrganizationDto {
+  title: String
+}
