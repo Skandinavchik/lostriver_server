@@ -1,5 +1,5 @@
-import { ObjectType, Field, Int, InputType, PartialType, PickType, ID } from '@nestjs/graphql'
-import { $Enums, Organization, Water } from '@prisma/client'
+import { ObjectType, Field, Int, ID } from '@nestjs/graphql'
+import { LicenseType, Organization, Water, WaterType } from '@prisma/client'
 import { Decimal } from '@prisma/client/runtime/library'
 import { OrganizationEntity } from '../../organization/entities/organization.entity'
 
@@ -30,11 +30,11 @@ export class WaterEntity implements Water {
 	@Field(() => Int)
 	memberPrice: Decimal
 
-	@Field()
-	waterType: $Enums.WaterType
+	@Field(() => WaterType)
+	waterType: WaterType
 
-	@Field(() => [String])
-	licenseType: $Enums.LicenseType[]
+	@Field(() => [LicenseType])
+	licenseType: LicenseType[]
 
 	@Field()
 	createdAt: Date
