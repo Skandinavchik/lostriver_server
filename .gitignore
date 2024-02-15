@@ -3,3 +3,6 @@
 /coverage
 
 .env
+
+.zed
+.vscode
