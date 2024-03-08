@@ -69,7 +69,7 @@ type WatersResponse {
 
 type Query {
   waters(q: String, order: [WaterOrder!], wtypes: [WaterTypes!], ltypes: [LicenseType!], take: Int = 100, skip: Int = 0): WatersResponse!
-  water(id: String!): SingleWaterResponse!
+  water(serialNumber: String!): SingleWaterResponse!
   organizations: [OrganizationEntity!]!
   organization(id: Int!): OrganizationEntity!
 }
