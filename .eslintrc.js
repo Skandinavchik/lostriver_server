@@ -30,6 +30,11 @@ module.exports = {
 		'@stylistic/array-bracket-spacing': ['error', 'never'],
 		'@stylistic/eol-last': ['error', 'always'],
 		'@stylistic/no-multiple-empty-lines': ['error', { 'max': 1, 'maxEOF': 1 }],
+		'@stylistic/indent': ['error', 2],
+		'@stylistic/arrow-spacing': ['error', { 'before': true, 'after': true }],
+		'space-infix-ops': ["error", { "int32Hint": false }],
+		'@stylistic/arrow-parens': ['error', 'as-needed'],
+		'@stylistic/type-annotation-spacing': ['error', { 'before': false, 'after': true, 'overrides': { 'arrow': { 'before': true, 'after': true } } }],
 		'@typescript-eslint/no-unused-vars': 'warn',
 	},
 }
