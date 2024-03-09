@@ -5,7 +5,7 @@ module.exports = {
 		tsconfigRootDir: __dirname,
 		sourceType: 'module',
 	},
-	plugins: ['@typescript-eslint/eslint-plugin'],
+	plugins: ['@typescript-eslint/eslint-plugin', '@stylistic/eslint-plugin'],
 	extends: [
 		'plugin:@typescript-eslint/recommended',
 		'plugin:prettier/recommended',
@@ -17,25 +17,19 @@ module.exports = {
 	},
 	ignorePatterns: ['.eslintrc.js'],
 	rules: {
-		'@typescript-eslint/interface-name-prefix': 'off',
-		'@typescript-eslint/explicit-function-return-type': 'off',
-		'@typescript-eslint/explicit-module-boundary-types': 'off',
-		'@typescript-eslint/no-explicit-any': 'off',
-		"@typescript-eslint/no-unused-vars": "off",
-		"@typescript-eslint/no-empty-function": "off",
-		"@typescript-eslint/semi": "off",
-		"prettier/prettier": [
-			"error",
-			{
-				"printWidth": 120,
-				"tabWidth": 4,
-				"singleQuote": true,
-				"useTabs": true,
-				"endOfLine": "off",
-			},
-			{
-				"usePrettierrc": false
-			}
-		]
+		'prettier/prettier': 0,
+		'@stylistic/comma-dangle': ['error', 'always-multiline'],
+		'@stylistic/quotes': ['error', 'single'],
+		'@stylistic/semi': ['error', 'never'],
+		'@stylistic/object-curly-spacing': ['error', 'always'],
+		'@stylistic/object-property-newline': ['error', { 'allowAllPropertiesOnSameLine': true }],
+		'@stylistic/key-spacing': ['error', { 'beforeColon': false }],
+		'@stylistic/no-multi-spaces': 'error',
+		'@stylistic/type-annotation-spacing': ['error', { 'before': false, 'after': true }],
+		'@stylistic/rest-spread-spacing': ['error', 'never'],
+		'@stylistic/array-bracket-spacing': ['error', 'never'],
+		'@stylistic/eol-last': ['error', 'always'],
+		'@stylistic/no-multiple-empty-lines': ['error', { 'max': 1, 'maxEOF': 1 }],
+		'@typescript-eslint/no-unused-vars': 'warn',
 	},
 }

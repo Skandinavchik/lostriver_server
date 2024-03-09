@@ -10,7 +10,7 @@ export class CreateWaterDto extends PartialType(
 ) {
 	@Field()
 	@Matches(/^\d{1}-\d{4}-\d{1}-\d{1}$/, {
-		message: 'Serial number should match format: `1-1234-1-1`'
+		message: 'Serial number should match format: `1-1234-1-1`',
 	})
 	serialNumber: string
 
@@ -19,7 +19,7 @@ export class CreateWaterDto extends PartialType(
 
 	@Field()
 	@IsUrl({ allow_underscores: true }, {
-		message: 'Cover should be a valid URL'
+		message: 'Cover should be a valid URL',
 	})
 	cover: string
 
@@ -28,32 +28,32 @@ export class CreateWaterDto extends PartialType(
 
 	@Field(() => Float)
 	@Min(0, {
-		message: 'Minimum price is 0'
+		message: 'Minimum price is 0',
 	})
 	@Max(0, {
-		message: 'Maximum price is 999.99'
+		message: 'Maximum price is 999.99',
 	})
 	visitorPrice: Decimal
 
 	@Field(() => Float)
 	@Min(0, {
-		message: 'Minimum price is 0'
+		message: 'Minimum price is 0',
 	})
 	@Max(0, {
-		message: 'Maximum price is 999.99'
+		message: 'Maximum price is 999.99',
 	})
 	memberPrice: Decimal
 
 	@Field()
 	@IsEnum($Enums.WaterType, {
-		message: 'Water type should be one of: `stream | river | lake`'
+		message: 'Water type should be one of: `stream | river | lake`',
 	})
 	waterType: $Enums.WaterType
 
 	@Field(() => [String])
 	@IsEnum($Enums.LicenseType, {
 		each: true,
-		message: 'License type should be one or several of: `carp | grayling | hucho | trout`'
+		message: 'License type should be one or several of: `carp | grayling | hucho | trout`',
 	})
 	licenseType: $Enums.LicenseType[]
 }

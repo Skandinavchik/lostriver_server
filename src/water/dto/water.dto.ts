@@ -1,7 +1,6 @@
 import { Field, InputType, registerEnumType } from '@nestjs/graphql'
 import { LicenseType, Prisma, WaterType } from '@prisma/client'
 
-
 @InputType({ description: 'Order `Water` by single or multiple fields. The order of sorting parameters matters. Supported values: `asc | desc`' })
 export class WaterOrder implements Prisma.WaterOrderByWithRelationInput {
 	@Field({ nullable: true })
@@ -19,15 +18,15 @@ registerEnumType(WaterType, {
 	description: 'Supported values',
 	valuesMap: {
 		lake: {
-			description: 'lake'
+			description: 'lake',
 		},
 		river: {
-			description: 'river'
+			description: 'river',
 		},
 		stream: {
-			description: 'stream'
-		}
-	}
+			description: 'stream',
+		},
+	},
 })
 
 registerEnumType(LicenseType, {
@@ -35,16 +34,16 @@ registerEnumType(LicenseType, {
 	description: 'Supported values',
 	valuesMap: {
 		carp: {
-			description: 'carp'
+			description: 'carp',
 		},
 		grayling: {
-			description: 'grayling'
+			description: 'grayling',
 		},
 		hucho: {
-			description: 'hucho'
+			description: 'hucho',
 		},
 		trout: {
-			description: 'trout'
-		}
-	}
+			description: 'trout',
+		},
+	},
 })
