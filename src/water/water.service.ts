@@ -1,10 +1,10 @@
 import { ConflictException, Injectable, NotFoundException } from '@nestjs/common'
-import { CreateWaterDto } from './dto/create-water.dto'
-import { UpdateWaterDto } from './dto/update-water.dto'
-import { PrismaService } from '../prisma/prisma.service'
-import { PrismaClientKnownRequestError } from '@prisma/client/runtime/library'
 import { LicenseType, WaterType } from '@prisma/client'
+import { PrismaClientKnownRequestError } from '@prisma/client/runtime/library'
+import { PrismaService } from '../prisma/prisma.service'
+import { CreateWaterDto } from './dto/create-water.dto'
 import { GetWatersArgs } from './dto/get-waters.dto'
+import { UpdateWaterDto } from './dto/update-water.dto'
 
 @Injectable()
 export class WaterService {
