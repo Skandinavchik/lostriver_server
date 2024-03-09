@@ -2,7 +2,6 @@ import { ArgsType, Field, Int } from '@nestjs/graphql'
 import { WaterOrder } from './water.dto'
 import { LicenseType, WaterType } from '@prisma/client'
 
-
 @ArgsType()
 export class GetWatersArgs {
 	@Field({
@@ -32,14 +31,14 @@ export class GetWatersArgs {
 	@Field(() => Int, {
 		name: 'take',
 		nullable: true,
-		defaultValue: 100
+		defaultValue: 100,
 	})
 	take?: number
 
 	@Field(() => Int, {
 		name: 'skip',
 		nullable: true,
-		defaultValue: 0
+		defaultValue: 0,
 	})
 	skip?: number
 }

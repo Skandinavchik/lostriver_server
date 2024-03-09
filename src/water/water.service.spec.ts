@@ -4,7 +4,6 @@ import { PrismaService } from '../prisma/prisma.service'
 import { PrismaClientKnownRequestError } from '@prisma/client/runtime/library'
 import { ConflictException, NotFoundException } from '@nestjs/common'
 
-
 class PrismaServiceMock {
 	water = {
 		create: jest.fn(),
@@ -12,7 +11,7 @@ class PrismaServiceMock {
 		findUniqueOrThrow: jest.fn(),
 		update: jest.fn(),
 		delete: jest.fn(),
-	};
+	}
 }
 
 describe('WatersService', () => {
@@ -23,15 +22,15 @@ describe('WatersService', () => {
 				{
 					provide: PrismaService,
 					useClass: PrismaServiceMock,
-				}
-			]
+				},
+			],
 		}).compile()
 
 		const waterService = moduleRef.get<WaterService>(WaterService)
 		const prismaService = moduleRef.get<PrismaServiceMock>(PrismaService)
 		const prismaError = new PrismaClientKnownRequestError('error', {
 			code: '',
-			clientVersion: ''
+			clientVersion: '',
 		})
 
 		return { prismaError, waterService, prismaService }
@@ -56,7 +55,7 @@ describe('WatersService', () => {
 
 			await expect(waterService.create(dto)).resolves.toStrictEqual({
 				status: 'success',
-				water: createdWater
+				water: createdWater,
 			})
 			expect(prismaService.water.create).toHaveBeenCalled()
 		})
@@ -78,7 +77,7 @@ describe('WatersService', () => {
 			const { waterService, prismaService } = await setupTestingModule()
 			const waters = [
 				{ id: '1', title: 'title1' },
-				{ id: '2', title: 'title2' }
+				{ id: '2', title: 'title2' },
 			]
 
 			jest.spyOn(prismaService.water, 'findMany').mockResolvedValue(waters)
@@ -86,7 +85,7 @@ describe('WatersService', () => {
 			await expect(waterService.getAll()).resolves.toStrictEqual({
 				status: 'success',
 				count: waters.length,
-				waters
+				waters,
 			})
 			expect(prismaService.water.findMany).toHaveBeenCalled()
 		})

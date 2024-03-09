@@ -7,30 +7,25 @@ import { UsePipes, ValidationPipe } from '@nestjs/common'
 import { WatersResponse, SingleWaterResponse } from './entities/water-response.entity'
 import { GetWatersArgs } from './dto/get-waters.dto'
 
-
 @Resolver(() => WaterEntity)
 export class WaterResolver {
 	constructor(private readonly waterService: WaterService) { }
 
-
 	@Mutation(() => SingleWaterResponse)
 	@UsePipes(new ValidationPipe({ forbidNonWhitelisted: true }))
-	async createWater(@Args('dto') createWaterDto: CreateWaterDto): Promise<SingleWaterResponse> {
+	async createWater(@Args('dto') createWaterDto: CreateWaterDto) {
 		return this.waterService.create(createWaterDto)
 	}
 
-
 	@Query(() => WatersResponse, { name: 'waters' })
-	async getWaters(@Args() args: GetWatersArgs): Promise<WatersResponse> {
+	async getWaters(@Args() args: GetWatersArgs) {
 		return this.waterService.getMany(args)
 	}
 
-
 	@Query(() => SingleWaterResponse, { name: 'water' })
-	async getWaterById(@Args('id') id: string): Promise<SingleWaterResponse> {
+	async getWaterById(@Args('id') id: string) {
 		return this.waterService.getById(id)
 	}
-
 
 	@Mutation(() => SingleWaterResponse)
 	@UsePipes(new ValidationPipe({ forbidNonWhitelisted: true }))
@@ -41,9 +36,8 @@ export class WaterResolver {
 		return this.waterService.update(id, updateWaterDto)
 	}
 
-
 	@Mutation(() => SingleWaterResponse)
-	async removeWater(@Args('id') id: string): Promise<SingleWaterResponse> {
+	async removeWater(@Args('id') id: string) {
 		return this.waterService.remove(id)
 	}
 }
