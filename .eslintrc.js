@@ -8,7 +8,7 @@ module.exports = {
 	plugins: ['@typescript-eslint/eslint-plugin', '@stylistic/eslint-plugin'],
 	extends: [
 		'plugin:@typescript-eslint/recommended',
-		'plugin:prettier/recommended',
+		// 'plugin:prettier/recommended',
 	],
 	root: true,
 	env: {
@@ -21,7 +21,8 @@ module.exports = {
 		'@stylistic/comma-dangle': ['error', 'always-multiline'],
 		'@stylistic/quotes': ['error', 'single'],
 		'@stylistic/semi': ['error', 'never'],
-		'@stylistic/object-curly-spacing': ['error', 'always'],
+		'@stylistic/object-curly-spacing': ['error', 'always', { 'objectsInObjects': false }],
+		'@stylistic/brace-style': ['error', '1tbs', { 'allowSingleLine': true }],
 		'@stylistic/object-property-newline': ['error', { 'allowAllPropertiesOnSameLine': true }],
 		'@stylistic/key-spacing': ['error', { 'beforeColon': false }],
 		'@stylistic/no-multi-spaces': 'error',
