@@ -1,11 +1,13 @@
 import { Module } from '@nestjs/common'
-import { ConfigModule } from '@nestjs/config'
+import { EnvConfigModule } from './configs/env-config.module'
+import { GraphqlConfigModule } from './configs/graphql.config.module'
+import { UsersModule } from './users/users.module';
 
 @Module({
-  imports: [ConfigModule.forRoot({
-    isGlobal: true,
-  })],
-  controllers: [],
-  providers: [],
+  imports: [
+    EnvConfigModule,
+    GraphqlConfigModule,
+    UsersModule,
+  ],
 })
 export class AppModule {}
