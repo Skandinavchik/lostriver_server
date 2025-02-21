@@ -5,7 +5,14 @@
     "source.fixAll.eslint": "explicit",
     "source.organizeImports": "explicit"
   },
+  "[prisma]": {
+    "editor.formatOnSave": true,
+    "editor.defaultFormatter": "Prisma.prisma"
+  },
   "cSpell.words": [
-    "lostrive"
+    "cuid",
+    "lostrive",
+    "lostriver",
+    "pooler"
   ]
 }

@@ -1,26 +1,25 @@
-import { Injectable } from '@nestjs/common'
+import { ConflictException, Injectable, InternalServerErrorException } from '@nestjs/common'
+import { PrismaClientKnownRequestError } from '@prisma/client/runtime/library'
+import { PrismaService } from 'src/prisma/prisma.service'
 import { CreateWaterInput } from './dto/create-water.input'
-import { UpdateWaterInput } from './dto/update-water.input'
+import { WaterEntity } from './entities/water.entity'
 
 @Injectable()
 export class WatersService {
-  create(createWaterInput: CreateWaterInput) {
-    return 'This action adds a new water'
+  constructor(private readonly prismaService: PrismaService) {}
+
+  async create(createWaterInput: CreateWaterInput): Promise<WaterEntity> {
+    try {
+      return await this.prismaService.water.create({
+        data: createWaterInput,
+      })
+    } catch (error) {
+      if (error instanceof PrismaClientKnownRequestError) throw new ConflictException()
+      throw new InternalServerErrorException('An unexpected error occurred')
+    }
   }
 
-  findAll() {
-    return 'This action returns all waters'
-  }
-
-  findOne(id: number) {
-    return `This action returns a #${id} water`
-  }
-
-  update(id: number, updateWaterInput: UpdateWaterInput) {
-    return `This action updates a #${id} water`
-  }
-
-  remove(id: number) {
-    return `This action removes a #${id} water`
+  async findAll(): Promise<WaterEntity[]> {
+    return await this.prismaService.water.findMany()
   }
 }
