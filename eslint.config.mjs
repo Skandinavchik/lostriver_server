@@ -55,6 +55,7 @@ export default tseslint.config(
       }],
 
       // TypeScript
+      'no-unused-vars': 'off',
       '@typescript-eslint/no-unused-vars': 'error',
     },
   },
