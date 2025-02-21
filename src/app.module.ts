@@ -1,13 +1,13 @@
 import { Module } from '@nestjs/common'
 import { EnvConfigModule } from './configs/env-config.module'
 import { GraphqlConfigModule } from './configs/graphql.config.module'
-import { UsersModule } from './users/users.module';
+import { WatersModule } from './waters/waters.module'
 
 @Module({
   imports: [
     EnvConfigModule,
     GraphqlConfigModule,
-    UsersModule,
+    WatersModule,
   ],
 })
 export class AppModule {}
