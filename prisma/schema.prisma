@@ -9,10 +9,11 @@ datasource db {
 
 model Water {
   id           String   @id @default(cuid())
-  serialNumber String   @unique
+  serialNumber String   @unique @map("serial_number")
   title        String
-  createdAt    DateTime @default(now())
-  updatedAt    DateTime @updatedAt
+  description  String
+  createdAt    DateTime @default(now()) @map("created_at")
+  updatedAt    DateTime @updatedAt @map("updated_at")
 
   @@map("waters")
 }

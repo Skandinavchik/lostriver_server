@@ -1,10 +1,11 @@
 import { Field, ObjectType } from '@nestjs/graphql'
 import { Water } from '@prisma/client'
-import { IsDate, IsString, Length, Matches } from 'class-validator'
+import { IsDate, IsString, IsUUID, Length, Matches } from 'class-validator'
 
 @ObjectType()
 export class WaterEntity implements Water {
   @Field()
+  @IsUUID()
   id: string
 
   @Field()
@@ -18,6 +19,10 @@ export class WaterEntity implements Water {
   @IsString()
   @Length(3, 50)
   title: string
+
+  @Field()
+  @IsString()
+  description: string
 
   @Field(() => Date)
   @IsDate()

@@ -6,6 +6,7 @@ type WaterEntity {
   id: String!
   serialNumber: String!
   title: String!
+  description: String!
   createdAt: DateTime!
   updatedAt: DateTime!
 }
@@ -26,4 +27,5 @@ type Mutation {
 input CreateWaterInput {
   serialNumber: String!
   title: String!
+  description: String!
 }
